@@ -1,37 +1,26 @@
 # streamlit_app.py
 import streamlit as st
-import cv2
-import numpy as np
-from PIL import Image
 import tempfile
+from object_detection_tracking import run_vehicle_detection
 
-st.set_page_config(page_title="Vehicle Detection Demo", layout="centered")
-st.title("🚗 Real-Time Vehicle Detection and Counting")
-st.write("Upload a video to see vehicle detection and counting in action!")
+st.title("🚗 Vehicle Detection & Counting with YOLO + DeepSort")
 
-uploaded_video = st.file_uploader("Upload Video", type=["mp4", "mov", "avi"])
+uploaded_video = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov"])
+if uploaded_video is not None:
+    temp_input = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+    temp_input.write(uploaded_video.read())
 
-if uploaded_video:
-    tfile = tempfile.NamedTemporaryFile(delete=False)
-    tfile.write(uploaded_video.read())
+    temp_output = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
 
-    cap = cv2.VideoCapture(tfile.name)
+    st.info("Processing video, this may take a moment...")
 
-    stframe = st.empty()
+    run_vehicle_detection(
+        input_video=temp_input.name,
+        output_video=temp_output.name,
+        yolo_weights="yolov8s.pt",
+        mars_model="config/mars-small128.pb",
+        class_file="config/coco.names"
+    )
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-        # Basic vehicle-like color detection (placeholder)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cars = cv2.Canny(gray, 100, 200)
-        colored_cars = cv2.cvtColor(cars, cv2.COLOR_GRAY2BGR)
-        
-        combined = cv2.addWeighted(frame, 0.8, colored_cars, 0.2, 0)
-
-        stframe.image(combined, channels="BGR", use_column_width=True)
-
-    cap.release()
-    st.success("Video Processing Complete!")
+    st.success("Detection complete. See results below:")
+    st.video(temp_output.name)
