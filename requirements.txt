@@ -4,3 +4,4 @@ ultralytics==8.0.73
 numpy
 pandas
 matplotlib
+tensorflow>=2.15.0
