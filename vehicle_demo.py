@@ -1,4 +1,4 @@
-import vehicle_demo as gr
+import gradio as gr
 import cv2
 import os
 from ultralytics import YOLO
