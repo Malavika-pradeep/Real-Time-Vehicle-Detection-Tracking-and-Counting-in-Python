@@ -2,7 +2,6 @@ import streamlit as st
 import tempfile
 import cv2
 import numpy as np
-import datetime
 from collections import deque
 from ultralytics import YOLO
 from deep_sort.deep_sort.tracker import Tracker
@@ -35,11 +34,11 @@ if uploaded_file:
         writer = create_video_writer(video_cap, output_path)
 
         model = YOLO("yolov8s.pt")
-        encoder = gdet.create_box_encoder("/workspaces/Real-Time-Vehicle-Detection-Tracking-and-Counting-in-Python/config/mars-small128.pb", batch_size=1)
+        encoder = gdet.create_box_encoder("config/mars-small128.pb", batch_size=1)
         metric = nn_matching.NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
         tracker = Tracker(metric)
 
-        with open("/workspaces/Real-Time-Vehicle-Detection-Tracking-and-Counting-in-Python/config/coco.names", "r") as f:
+        with open("config/coco.names", "r") as f:
             class_names = f.read().strip().split("\n")
 
         np.random.seed(42)
