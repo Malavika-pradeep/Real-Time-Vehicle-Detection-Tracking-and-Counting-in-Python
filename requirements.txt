@@ -1,5 +1,6 @@
-streamlit
+streamlit>=1.46.0
 opencv-python-headless==4.7.0.72
-ultralytics==8.0.20
+ultralytics==8.0.73
 numpy
-tensorflow==2.3.0
+pandas
+matplotlib
