@@ -16,7 +16,7 @@
       ]
     }
   },
-  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip install -r requirements.txt; pip install streamlit; echo '✅ Packages installed and Requirements met'",
+  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip install -r requirements.txt; pip install streamlit tensorflow; echo '✅ All Packages Installed'",
   "postAttachCommand": "streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false",
   "portsAttributes": {
     "8501": {
