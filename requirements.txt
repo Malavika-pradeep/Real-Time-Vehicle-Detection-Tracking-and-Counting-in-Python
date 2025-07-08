@@ -1,7 +1,2 @@
-streamlit>=1.46.0
-opencv-python-headless==4.7.0.72
-ultralytics==8.0.73
-numpy
-pandas
-matplotlib
-tensorflow>=2.15.0
+gradio
+ultralytics
